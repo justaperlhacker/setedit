@@ -9,7 +9,7 @@ RHIDE borrows.
 
 ## Current state (already validated on this host)
 
-- Source: `git clone https://git.code.sf.net/p/setedit/code setedit-code`
+- Source: `git clone https://git.code.sf.net/p/setedit/code setedit`
   (SourceForge canonical repo, HEAD `d8231bc`, SETEdit **v0.5.8**).
 - Toolchain: gcc/g++ **16.2.1**, GNU make **4.4.1**, Perl, binutils.
 - Turbo Vision: the modern fork `justaperlhacker/tvision` @ `modern-gcc`
@@ -50,10 +50,10 @@ ln -sf "$PWD/rhtv-config" ~/.local/bin/rhtv-config
 
 # 1. canonical SETEdit tree
 cd ~/Projects
-git clone https://git.code.sf.net/p/setedit/code setedit-code
+git clone https://git.code.sf.net/p/setedit/code setedit
 
 # 2. full editor
-cd setedit-code/setedit
+cd setedit/setedit
 ./configure \
   --tv-include="$HOME/Projects/tvision/tvision/include" \
   --tv-lib="$HOME/Projects/tvision/tvision/makes"
@@ -133,6 +133,9 @@ needs `--libset`, which this tree still provides unchanged.
   `setup-new-host.sh.txt`, `.gitignore`.
 - upstream tree unchanged except `setedit/config.pl`: `AlCon/`, `cal/`,
   `setedit/`.
+- local checkout layout: `~/Projects/setedit` = this repo (from SourceForge);
+  `~/Projects/setedit-upstream` = the set-soft mirror RHIDE builds against
+  (`rhide/config.env` points `SETSRC`/`SETOBJ` there).
 
 ## Open decisions
 

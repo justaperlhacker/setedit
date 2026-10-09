@@ -122,3 +122,14 @@ Only two changes were needed, both in `setedit/config.pl`:
   separate SourceForge project not shipped here, so it is disabled.
 - **`AlCon` and `cal`** are extra tools in this repo; they are not part of the
   editor build (the editor is under `setedit/`).
+
+## License
+
+SETEdit is distributed under the **GNU General Public License, version 2**
+(GPLv2). The full text is in [`LICENSE`](LICENSE), copied verbatim from the
+original project's `setedit/copying.gpl`.
+
+The original suite mixes a few components with slightly different terms; see
+`setedit/copyrigh` for the per-component details. In short: the editor classes
+and InfView are GPL-2.0-or-later, some bundled helper libraries are LGPL, and
+the Robert Höhne `librhuti` sources are freely distributable.
