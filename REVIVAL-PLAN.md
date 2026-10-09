@@ -1,4 +1,6 @@
-# SETEdit Revival — Plan (status: BUILDS + RUNS, validated 2026-10-09)
+# SETEdit Revival — Plan (status: BUILDS + RUNS + PUBLISHED, 2026-10-09)
+
+Published at **https://github.com/justaperlhacker/setedit**.
 
 Revive the canonical SETEdit suite so it compiles and runs on a modern x86-64
 Linux toolchain, mirroring what was done for RHIDE. This is the *editor*
@@ -100,31 +102,30 @@ deleted first) builds both binaries with exit 0.
   `-Wregister` / `-Waggressive-loop-optimizations` in the bundled mp3 decoder.
   No `-Werror`, so they are cosmetic.
 
-## GitHub project plan (`justaperlhacker`)
+## GitHub project — DONE
 
-**Account mechanics (important):** the `gh` CLI on this host is authenticated
-as **`satrac`**, which has only read access to `justaperlhacker/*` and cannot
-create repositories there. The SSH key `~/.ssh/id_ed25519_netmancer`
-(`Host github-justaperlhacker`) authenticates as **justaperlhacker**, so
-*pushing* works but *creating* the repo must be done by that account (GitHub
-web UI, or a `justaperlhacker` token).
+Published: **https://github.com/justaperlhacker/setedit** (public, default
+branch `master`, 15 upstream tags pushed, revival commit `7748066`).
 
-Steps:
-1. Create an empty **public** repo under `justaperlhacker` (name TBD, see
-   decisions): recommended `setedit` (matches `rhide`/`tvision`/`gdb-5.3`).
-2. Wire remotes and push:
-   ```sh
-   cd ~/Projects/setedit-code
-   git remote rename origin upstream
-   git remote add origin git@github-justaperlhacker:justaperlhacker/setedit.git
-   git add -A && git commit -m "Revive SETEdit 0.5.8 on modern toolchain (gcc 16)"
-   git push -u origin master
-   git push --tags
-   ```
-3. Optional consistency: point RHIDE's `setup-new-host.sh.txt` / README at
-   `justaperlhacker/setedit` instead of `set-soft/setedit`, so the whole stack
-   lives under one account. (RHIDE only needs `--libset`, which this tree still
-   provides unchanged.)
+**Account mechanics (important):** the `gh` CLI and the `GITHUB_TOKEN` in
+`~/.config/opencode/.env` on this host both belong to **`satrac`**, which has
+only read access to `justaperlhacker/*` and therefore cannot create
+repositories there (`gh repo create justaperlhacker/setedit` →
+*"satrac cannot create a repository for justaperlhacker"*). The SSH key
+`~/.ssh/id_ed25519_netmancer` (`Host github-justaperlhacker`) authenticates as
+**justaperlhacker** — but an SSH alias only carries `git fetch/push`, it is not
+an API credential. The empty repo was therefore created by the
+`justaperlhacker` account (web UI); the push needs no token.
+
+Remotes (already configured):
+```sh
+origin   git@github-justaperlhacker:justaperlhacker/setedit.git
+upstream https://git.code.sf.net/p/setedit/code
+```
+
+Optional consistency (declined for now): point RHIDE's `setup-new-host.sh.txt`
+/ README at `justaperlhacker/setedit` instead of `set-soft/setedit`. RHIDE only
+needs `--libset`, which this tree still provides unchanged.
 
 ## Repo layout after revival
 
@@ -134,8 +135,6 @@ Steps:
 
 ## Open decisions
 
-- GitHub repo name: `setedit` (recommended) vs `setedit-code`.
-- Create repo via web UI or supply a justaperlhacker token for `gh`.
 - Chase `libmigdb` for the editor's built-in debugger? (separate SF project;
   not shipped here, so debug features are disabled — RHIDE has its own GDB).
 - Build/verify `AlCon` (Allegro conio emulation) and `cal`? Currently out of
