@@ -183,10 +183,12 @@ if ($OS eq 'DOS')
 elsif ($OS eq 'UNIX')
   {
    $MakeDefsRHIDE[0]='RHIDE_STDINC=/usr/include /usr/local/include /usr/include/g++ /usr/local/include/g++ /usr/lib/gcc-lib /usr/local/lib/gcc-lib';
-   if (@conf{'static'} eq 'yes')
-      { $libs=TVConfigOption('slibs'); }
-   else
-      { $libs=TVConfigOption('dlibs'); }
+   # Always ask rhtv-config for the static TV library list. It also carries
+   # Turbo Vision's own dependencies (ncurses, gpm, X11, Xmu) using the
+   # -Wl,-dn/-dy grouping. --dlibs reports only -lrhtv, which is correct
+   # only when a shared librhtv.so exists to pull in its deps by itself;
+   # the static-only build used to link SETEdit (and RHIDE) has no .so.
+   $libs=TVConfigOption('slibs');
    $libs=~s/[\r\n]//g;
    $MakeDefsRHIDE[1]='RHIDE_OS_LIBS='.$libs.' ';
    #
@@ -1600,7 +1602,10 @@ sub GenerateMakefile
  # infview
  if ($infview)
    {
-    $text.="\n\ninfview:\n";
+    # Depend on 'needed' too: infview links against the mp3/bzip2/z/pcre
+    # libraries that 'needed' builds. Without this, a parallel 'make -j'
+    # can start the infview link before libmpegsnd.a exists (race).
+    $text.="\n\ninfview: needed\n";
     $text.="\t\$(MAKE) -C makes infview";
    }
  # plasmas

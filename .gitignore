@@ -1,0 +1,6 @@
+# SETEdit revival: build outputs (never commit these)
+*.o
+*.a
+*.so
+*.exe
+*.gdt

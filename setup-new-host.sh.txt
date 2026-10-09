@@ -1,0 +1,33 @@
+#!/bin/bash
+# SETEdit revival: new-host bootstrap (saved as .txt for easy copying).
+# Clones the repos and builds tvision -> setedit.
+# Tested on CachyOS/Arch with gcc 16. Needs: gcc g++ make perl git, ncurses
+#   dev, gpm dev, X11 dev libs (Xmu!), zlib, bzip2, pcre. On Arch:
+#   sudo pacman -S --needed base-devel ncurses gpm libx11 libxmu zlib bzip2 pcre perl git
+set -e
+P="$HOME/Projects"
+mkdir -p "$P" ~/.local/bin
+cd "$P"
+
+echo "=== 1/3 clone ==="
+[ -d setedit ] || git clone git@github-justaperlhacker:justaperlhacker/setedit.git
+[ -d tvision ] || git clone https://github.com/justaperlhacker/tvision.git
+git -C tvision fetch origin
+git -C tvision checkout modern-gcc
+
+echo "=== 2/3 tvision (static only) ==="
+cd "$P/tvision/tvision"
+./configure --without-dynamic
+make -j"$(nproc)"
+ln -sf "$PWD/rhtv-config" ~/.local/bin/rhtv-config
+
+echo "=== 3/3 setedit editor ==="
+cd "$P/setedit/setedit"
+./configure \
+  --tv-include="$P/tvision/tvision/include" \
+  --tv-lib="$P/tvision/tvision/makes"
+make -j"$(nproc)"
+echo
+echo "OK: $P/setedit/makes/editor.exe and infview.exe built."
+echo "Run: env DISPLAY=:0 SET_FILES=/usr $P/setedit/setedit/makes/editor.exe"
+echo "Install system-wide:  make -C $P/setedit/setedit install"
