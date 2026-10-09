@@ -123,9 +123,11 @@ origin   git@github-justaperlhacker:justaperlhacker/setedit.git
 upstream https://git.code.sf.net/p/setedit/code
 ```
 
-Optional consistency (declined for now): point RHIDE's `setup-new-host.sh.txt`
-/ README at `justaperlhacker/setedit` instead of `set-soft/setedit`. RHIDE only
-needs `--libset`, which this tree still provides unchanged.
+RHIDE now builds against this fork: `rhide/config.env` and RHIDE's
+`setup-new-host.sh.txt` / README point `SETSRC`/`SETOBJ` at
+`~/Projects/setedit/setedit` (the set-soft mirror is no longer used). Verified
+`libset.a` is interface-identical to the mirror's (same 68 members, same 1630
+exported symbols) and that a relinked RHIDE runs against it.
 
 ## Repo layout after revival
 
@@ -133,9 +135,9 @@ needs `--libset`, which this tree still provides unchanged.
   `setup-new-host.sh.txt`, `.gitignore`.
 - upstream tree unchanged except `setedit/config.pl`: `AlCon/`, `cal/`,
   `setedit/`.
-- local checkout layout: `~/Projects/setedit` = this repo (from SourceForge);
-  `~/Projects/setedit-upstream` = the set-soft mirror RHIDE builds against
-  (`rhide/config.env` points `SETSRC`/`SETOBJ` there).
+- local checkout layout: `~/Projects/setedit` = this repo; RHIDE builds
+  against it (`rhide/config.env` points `SETSRC`/`SETOBJ` here). The old
+  set-soft mirror (`setedit-upstream`) is no longer needed.
 
 ## Open decisions
 
