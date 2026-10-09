@@ -9,7 +9,7 @@ modern x86-64 Linux toolchain** (tested with gcc 16.2.1 on CachyOS, as a native
 
 See `REVIVAL-PLAN.md` for the current status, the fixes required, and the
 verification results. For a one-shot bootstrap of a fresh machine, use
-`setup-new-host.sh.txt`.
+`setup-new-host.sh.txt`. See `ROADMAP.md` for the enhancement backlog.
 
 ## Source repositories
 
