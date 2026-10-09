@@ -129,7 +129,8 @@ needs `--libset`, which this tree still provides unchanged.
 
 ## Repo layout after revival
 
-- root: `README.md`, `REVIVAL-PLAN.md`, `setup-new-host.sh.txt` (new).
+- root additions: `README.md`, `BUILD.md`, `REVIVAL-PLAN.md`,
+  `setup-new-host.sh.txt`, `.gitignore`.
 - upstream tree unchanged except `setedit/config.pl`: `AlCon/`, `cal/`,
   `setedit/`.
 

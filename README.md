@@ -43,6 +43,10 @@ sudo pacman -S --needed base-devel ncurses gpm libx11 libxmu zlib bzip2 pcre per
 
 ## Build
 
+See [`BUILD.md`](BUILD.md) for the full step-by-step instructions, build
+variants (editor-only, `libset` for RHIDE), and troubleshooting. The short
+version is below.
+
 ### 1. Turbo Vision (static)
 
 ```sh
