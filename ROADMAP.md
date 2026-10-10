@@ -44,8 +44,6 @@ Legend: **[S]** setedit, **[TV]** belongs in the tvision fork.
   zlib/bzip2 by default.
 - [ ] **[S] Modern syntax highlighting**: Rust, Go, TypeScript, Zig, TOML,
   YAML, Raku (reuse the `tree-sitter-raku` work) in `syntaxhl.shl`.
-- [ ] **[S] Color themes**: reuse the color-theme system recently added to
-  RHIDE.
 - [ ] **[S] Git integration**: status / diff / blame inside the editor.
 - [ ] **[S] Docs**: rebuild info/man pages under makeinfo 7, add a `.desktop`
   file and icons.
@@ -77,7 +75,7 @@ Legend: **[S]** setedit, **[TV]** belongs in the tvision fork.
 1. CI + build matrix (quick, prevents regressions).
 2. Install-prefix / `SET_FILES` fix + packaging.
 3. Warning cleanup + sanitizer job.
-4. PCRE2 + modern syntax files + themes.
+4. PCRE2 + modern syntax files.
 
 ## Cross-repo note
 
