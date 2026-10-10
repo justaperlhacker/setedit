@@ -33,6 +33,10 @@ Legend: **[S]** setedit, **[TV]** belongs in the tvision fork.
 - [ ] **[S] Warning hygiene**: clear the C++17 `register` and
   `-Wold-style-definition` warnings, enable `-Wall -Wextra`, and add
   `cppcheck`/`clang-tidy` plus an **ASan/UBSan** CI job.
+- [x] **[S] Build: config changes force a rebuild** — `config.pl` now drops
+  stale object files when `include/configed.h` changes, so a new `--prefix` is
+  actually compiled in (previously the installed binary kept the old
+  `CONFIG_PREFIX` and demanded `SET_FILES`).
 
 ## Medium
 
@@ -56,6 +60,13 @@ Legend: **[S]** setedit, **[TV]** belongs in the tvision fork.
   / `zed-raku`).
 - [ ] **[TV] Wayland-native Turbo Vision driver** (X11 currently works through
   XWayland).
+- [ ] **[TV] TTF/OTF font support**: a FreeType backend for the TV X11 driver
+  (`classes/x11/x11src.cc`) that rasterizes monospace outlines into the
+  driver's per-glyph `XImage`. Start with `FT_RENDER_MODE_MONO` to reuse the
+  existing `XPutImage` path, then antialiasing via 8-bit images / XRender.
+  Needs codepage → Unicode glyph mapping (ties into the UTF-8 item) plus
+  `FontFile` / `FontSize` / bold+italic options. Terminal and console drivers
+  can't use outlines, so this only applies to graphical drivers.
 - [ ] **[S] 64-bit/portability audit + fuzzing** of the loaders/parsers
   (`loadshl`, `tags`, macros) — old C code, good ASan/fuzzer targets.
 

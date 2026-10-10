@@ -1426,10 +1426,34 @@ sub CreateConfigH
    {
     print "no changes\n";
    }
- else
+  else
+    {
+     print "created new header\n";
+     replace('include/configed.h',$text);
+     # The non-maintainer makefiles (.umk) don't track header dependencies, so
+     # without this a changed configuration header would not trigger a
+     # recompile: e.g. a new --prefix silently kept the old CONFIG_PREFIX and
+     # the editor demanded SET_FILES. Drop the objects to force a rebuild.
+     DropStaleObjects();
+    }
+}
+
+sub DropStaleObjects
+{
+ my @dirs=('makes/obj','makes/objinf','makes/objlib','makes/objsdg',
+           'mp3/mpegsound/obj','mp3/libamp/obj');
+ my ($d,$f);
+
+ foreach $d (@dirs)
    {
-    print "created new header\n";
-    replace('include/configed.h',$text);
+    next unless (-d $d);
+    opendir(DIR,$d) || next;
+    foreach $f (readdir(DIR))
+      {
+       next unless ($f=~/(\.o|\.a|\.so)$/);
+       unlink("$d/$f");
+      }
+    closedir(DIR);
    }
 }
 
