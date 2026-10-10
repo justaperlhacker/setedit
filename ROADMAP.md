@@ -58,13 +58,27 @@ Legend: **[S]** setedit, **[TV]** belongs in the tvision fork.
   / `zed-raku`).
 - [ ] **[TV] Wayland-native Turbo Vision driver** (X11 currently works through
   XWayland).
-- [ ] **[TV] TTF/OTF font support**: a FreeType backend for the TV X11 driver
-  (`classes/x11/x11src.cc`) that rasterizes monospace outlines into the
-  driver's per-glyph `XImage`. Start with `FT_RENDER_MODE_MONO` to reuse the
-  existing `XPutImage` path, then antialiasing via 8-bit images / XRender.
-  Needs codepage → Unicode glyph mapping (ties into the UTF-8 item) plus
-  `FontFile` / `FontSize` / bold+italic options. Terminal and console drivers
-  can't use outlines, so this only applies to graphical drivers.
+- [ ] **[TV] TTF/OTF font support (FreeType backend for the X11 driver)** —
+  one implementation in `classes/x11/x11src.cc` benefits RHIDE and setedit
+  (both link `librhtv`); neither app grows its own font code.
+  - **Phase 1 (monochrome, low-risk):** link `libfreetype`; add
+    `FontFile=`/`FontSize=` options (parsed with the existing `optSearch`);
+    `FT_New_Face` + `FT_Set_Pixel_Sizes`; render each glyph with
+    `FT_RENDER_MODE_MONO` into the existing 1-bit per-glyph `XImage` arrays
+    (`ximgFont[256]`, `unicodeGlyphs`) so the current `XPutImage` draw loop is
+    unchanged. Cell metrics `fontW = max advance`, `fontH = ascent + descent`;
+    monospace only; lazy render + cache; keep the built-in 8x16/10x20 as
+    fallback.
+  - **Phase 2 (quality):** antialiased 8-bit glyphs (or an XRender text path),
+    optional `fontconfig` name→file matching, bold/italic via face files or
+    `FT_LOAD` embolden/slant (`CanSetBFont`/`CanSetSBFont` already exist).
+  - **Glyph mapping:** reuse the driver's `unicode16` codepage→Unicode path and
+    `FT_Get_Char_Index` (shares groundwork with the UTF-8 item).
+  - **Apps only expose settings:** RHIDE options dialog, setedit
+    font/preferences dialog; `.sft`/`TVFontCollection` stays for non-graphical
+    drivers.
+  - **Effort:** medium (mono) / medium-large (AA + styles). Graphical drivers
+    only — ncurses/console can't use outlines.
 - [ ] **[S] 64-bit/portability audit + fuzzing** of the loaders/parsers
   (`loadshl`, `tags`, macros) — old C code, good ASan/fuzzer targets.
 
